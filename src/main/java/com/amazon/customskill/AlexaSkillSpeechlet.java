@@ -166,6 +166,7 @@ public class AlexaSkillSpeechlet
 		zehn, zwanzig, dreizig, oncemore // question,Word gama3 fe wa7da
 
 	};
+	//obj dec
 
 	UserIntent ourUserIntent;
 
@@ -224,7 +225,7 @@ public class AlexaSkillSpeechlet
 
 // Datenbank für Quizfragen // del
 
-	static String DBName = "AlexaBeispiel.db";
+	static String DBName = "WortspielDB.db";
 
 	private static Connection con = null;
 
@@ -243,7 +244,7 @@ public class AlexaSkillSpeechlet
 		logger.info("Alexa session begins");
 
 		utterances = readSystemUtterances();
-
+		recState = RecognitionState.Answer;
 		counter = 0;
 
 	}
@@ -334,7 +335,7 @@ public class AlexaSkillSpeechlet
 		logger.info("Received following text: [" + userRequest + "]");
 
 		logger.info("recState is [" + recState + "]");
-
+//initially
 		SpeechletResponse resp = null;
 
 		switch (recState) {
@@ -774,7 +775,7 @@ public class AlexaSkillSpeechlet
 
 	}
 
-	/// read till all questions are reached
+	/// read till all questions are reached  
 	private SpeechletResponse askUserResponseQuestion(String question, int counter) {
 
 		SsmlOutputSpeech speech = new SsmlOutputSpeech();

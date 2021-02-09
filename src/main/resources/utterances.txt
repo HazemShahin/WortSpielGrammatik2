@@ -1,4 +1,4 @@
-welcomeMsg = Hallo, herzlich willkommen bei Wer Wird Millionär.
+welcomeMsg = Hallo, herzlich willkommen im welchem Niveu möchtest anfangen.
 wrongMsg = Das ist leider falsch.
 correctMsg = Das ist richtig
 continueMsg = Möchten Sie weiterspielen?

@@ -5,7 +5,7 @@ import java.sql.*;
 
 public class DBConnection {
 
-	static String DBName = "AlexaBeispiel.db";
+	static String DBName = "WortspielDB.db";
 	private static Connection con = null;
 /*
  * establishing the connection with the SQLite database 

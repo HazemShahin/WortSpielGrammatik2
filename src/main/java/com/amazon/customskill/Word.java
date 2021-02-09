@@ -57,7 +57,7 @@ public class Word {
 				Word = rs.getString("Word");
 				WordID = rs.getInt("WordID");
 			}
-			String ID = rs.getString("NiveauID");
+			//String ID = rs.getString("NiveauID");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

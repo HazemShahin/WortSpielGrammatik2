@@ -14,13 +14,13 @@ public class DatenbankTest {
 
 	public static void main (String[] args) throws URISyntaxException {
 
-		System.out.println(DatenbankTest.class.getClassLoader().getResource("utterances.txt").toURI());
+	//	System.out.println(DatenbankTest.class.getClassLoader().getResource("utterances.txt").toURI());
 		
 		try {
 			con = DBConnection.getConnection();
 			stmt = con.createStatement();
 			ResultSet rs = stmt
-					.executeQuery("SELECT * FROM Fragen WHERE Gewinnsumme=" + 125000 + "");
+					.executeQuery("SELECT * FROM Fragen WHERE FrageNr=" + 1 + "");
 			String question = rs.getString("Frage");
 			String correctAnswer = rs.getString("RichtigeAntwort");
 			System.out.println(question+"\t"+correctAnswer);
