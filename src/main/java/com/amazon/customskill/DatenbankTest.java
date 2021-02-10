@@ -20,10 +20,11 @@ public class DatenbankTest {
 			con = DBConnection.getConnection();
 			stmt = con.createStatement();
 			ResultSet rs = stmt
-					.executeQuery("SELECT * FROM Fragen WHERE FrageNr=" + 1 + "");
-			String question = rs.getString("Frage");
-			String correctAnswer = rs.getString("RichtigeAntwort");
-			System.out.println(question+"\t"+correctAnswer);
+					.executeQuery("SELECT * FROM Words");
+			String lvl = rs.getString("Schwierigkeit");
+			String word = rs.getString("Wort");
+			String correctAnswer = rs.getString("Wortgruppe");
+			System.out.println(word+"\t"+correctAnswer);
 		} catch (Exception e){
 			e.printStackTrace();
 		}

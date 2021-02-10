@@ -6,7 +6,9 @@ import java.sql.Statement;
 import java.util.Random;
 
 public class Word {
-
+	static String Artikel;
+	static String Wortgruppe; // Correct Answer 
+	private String AlexaCorrectAnswer = null;
 	static String Word;
 	static String Level;
 	static int WordID;
@@ -20,6 +22,10 @@ public class Word {
 		this.Level = Level;
 	}
 
+	public Word(int wordID2) {
+		this.WordID = WordID;
+	}
+
 	/*
 * selects the content of a row in the question tables for the needed question based on the levelId from Words table
 	 * */
@@ -27,21 +33,21 @@ public class Word {
 
 		switch (Level) {
 		case "leicht": {
-			int max = 115;
-	        int min = 100; 
+			int max = 49;
+	        int min = 1; 
 			rand = (int)(random.nextInt((max - min) + 1) + min);
 			randOld = rand; 
 			break;
 		}
 		case "schwer": {
-			int max = 147;
-	        int min = 116; 
+			int max = 68;
+	        int min = 50; 
 			rand = (int)(random.nextInt((max - min) + 1) + min);
 			break;
 		}
 		case "sehrschwer": {
-			int max = 148;
-	        int min = 163; 
+			int max = 69;
+	        int min = 88; 
 			rand = (int)(random.nextInt((max - min) + 1) + min);
 			break;
 		}
@@ -52,10 +58,13 @@ public class Word {
 			con = DBConnection.getConnection();
 			stmt = con.createStatement();
 			ResultSet rs = stmt
-					.executeQuery("SELECT *  FROM Word where NiveauID = '" + Level + "' and WordID =" + rand + "");
+					.executeQuery("SELECT *  FROM Word where Schwierigkeit = '" + Level + "' and WordID =" + rand + "");
 			while (rs.next()) {
-				Word = rs.getString("Word");
+				Word = rs.getString("Wort");
 				WordID = rs.getInt("WordID");
+				// change all dependencies
+				Wortgruppe = rs.getString("Wortgruppe");
+				Artikel = rs.getString("Artikel");
 			}
 			//String ID = rs.getString("NiveauID");
 		} catch (Exception e) {
@@ -65,7 +74,31 @@ public class Word {
 		return Word;
 	}
 
-	public static void setWordID(int wordID) {
+	public String getArtikel() {
+		return Artikel;
+	}
+
+	public static void setArtikel(String artikel) {
+		Artikel = artikel;
+	}
+//
+	public String getWortgruppe() {
+		return Wortgruppe;
+	}
+
+	public void setWortgruppe(String wortgruppe) {
+		Wortgruppe = wortgruppe;
+	}
+
+	public String getAlexaCorrectAnswer() {
+		return AlexaCorrectAnswer;
+	}
+
+	public void setAlexaCorrectAnswer(String alexaCorrectAnswer) {
+		AlexaCorrectAnswer = alexaCorrectAnswer;
+	}
+
+	public void setWordID(int wordID) {
 		WordID = wordID;
 	}
 

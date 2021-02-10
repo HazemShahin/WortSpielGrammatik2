@@ -153,7 +153,7 @@ public class AlexaSkillSpeechlet
 // In welchem Spracherkennerknoten sind wir? 
 
 	static enum RecognitionState {
-		Answer, YesNo, YesNoWiederholung, WordNumChoice
+		Answer, YesNo, YesNoWiederholung, YesNoWord
 	}; // 4 Methoden für die evaluierung jedes einzige Status
 
 	RecognitionState recState;
@@ -162,7 +162,7 @@ public class AlexaSkillSpeechlet
 
 	private static enum UserIntent {
 
-		Yes, No, Nomen, Verben, Adjektiven, Präpositionen, leicht, schwer, sehrschwer, beenden, question, Word, Level,
+		Yes, No, Nomen, Verben, Adjektiven, Präpositionen, leicht, schwer, sehrschwer, beenden, question, Word, //Level,
 		zehn, zwanzig, dreizig, oncemore // question,Word gama3 fe wa7da
 
 	};
@@ -337,7 +337,7 @@ public class AlexaSkillSpeechlet
 		logger.info("recState is [" + recState + "]");
 //initially
 		SpeechletResponse resp = null;
-
+// handling user intents 
 		switch (recState) {
 
 		case Answer:
@@ -348,6 +348,15 @@ public class AlexaSkillSpeechlet
 			resp = evaluateYesNo(userRequest);
 			recState = RecognitionState.Answer;
 			break;
+		case YesNoWiederholung:
+			resp = evaluateYesNoWord(userRequest);
+			break;
+		case YesNoWord:
+			resp = evaluateYesNo(userRequest);
+			break;
+			
+
+		
 
 //case YesNoWiederholung: resp =  evaluateYesNoWiederholung(userRequest); break; create the Method  
 
@@ -367,7 +376,7 @@ public class AlexaSkillSpeechlet
 // Wenn Ja, stelle die nächste Frage 
 
 // Wenn Nein, nenne die Gewinncounterme und verabschiede den user 
-
+// Auswahl der Worter falls Ja 
 	private SpeechletResponse evaluateYesNo(String userRequest) {
 
 		SpeechletResponse res = null;
@@ -381,7 +390,8 @@ public class AlexaSkillSpeechlet
 			selectWord(Level);
 			res = askUserResponse(Question);
 			recState = RecognitionState.Answer;
-			break;// where is Question defined ?
+			break;
+			// where is Question defined ?
 
 		}
 		case No: {
@@ -434,7 +444,7 @@ public class AlexaSkillSpeechlet
 	 * 
 	 * }
 	 */
-
+/*
 	private SpeechletResponse askUserResponseYesNoWiederholung(boolean again) {
 		SsmlOutputSpeech speech = new SsmlOutputSpeech();
 
@@ -457,22 +467,23 @@ public class AlexaSkillSpeechlet
 
 		return SpeechletResponse.newAskResponse(speech, rep);
 	}
-
+/*
 	/**
-	 * evaluates the answer of the user in cases of yes-no-answer situations for a
-	 * text. in case of Answer No, it selects a question from the database using
-	 * Question class. in case of answer yes, Alexa reads the same text again.
+	
+	 * 
 	 * überprüft User YesNo Antwort, wenn nein wird ein neues Wort Randomisier
 	 * ausgewählt und deren Frage gelesen.Wenn Ja liest die Frage vom Aktuellen Wort
 	 * nochmal
 	 **/
 
-//Diese Methode ist noch nicht fertig implementiert. queston ii
+// Evaluation der User Antwort falls Ja  queston ii(Wiederholung) 
 	private SpeechletResponse evaluateYesNoWord(String userRequest) {
 		SpeechletResponse res = null;
 		recognizeUserIntent(userRequest);
 		switch (ourUserIntent) {
 		case Yes: {
+			
+			res = askUserResponseWord(newWord);
 			break;
 		}
 		case No: {
@@ -480,9 +491,9 @@ public class AlexaSkillSpeechlet
 
 			while (counter < wordnum + 1) {
 				counter++;
-				question = new Question(WordID);
-				Question = question.selectQuestion();
-				res = askUserResponseQuestion(Question, counter);
+				word = new Word(WordID);
+				Word = word.selectWord();
+				res = askUserResponseQuestion(Word, counter);
 				recState = RecognitionState.Answer;
 				break;
 			}
@@ -511,7 +522,35 @@ public class AlexaSkillSpeechlet
 //selectWord(Level); 
 
 		case Word: {
+			if(word.rand<wordnum) {
+			word.rand++;
+			res = askUserResponseQuestion(Word, counter);
+			recState = RecognitionState.Answer;
+			break;
+			}
 
+		}
+		case leicht: {
+			selectWord("leicht");
+			res = askUserResponseQuestion(Word, counter);
+			recState = RecognitionState.Answer;
+			break;
+		}
+		case schwer: {
+
+			selectWord("schwer");
+			res = askUserResponseQuestion(Word, counter);
+			recState = RecognitionState.Answer;
+			
+			break;
+		}
+		case sehrschwer: {
+
+			selectWord("schwer");
+			res = askUserResponseQuestion(Word, counter);
+			recState = RecognitionState.Answer;
+			
+			break;
 		}
 
 		default: {
@@ -532,13 +571,13 @@ public class AlexaSkillSpeechlet
 					|| ourUserIntent.equals(UserIntent.Adjektiven)
 
 					|| ourUserIntent.equals(UserIntent.Präpositionen)
-
+					
 			) {
 
 				logger.info("User answer =" + ourUserIntent.name().toLowerCase() + "/correct answer="
-						+ question.getCorrectAnswer());
+						+ word.getWortgruppe());//
 
-				if (ourUserIntent.name().toLowerCase().equals(question.getCorrectAnswer())) {
+				if (ourUserIntent.name().toLowerCase().equals(word.getWortgruppe())) {
 
 					logger.info("User answer recognized as correct.");
 
@@ -638,7 +677,7 @@ public class AlexaSkillSpeechlet
 
 		} else if (m2.find()) {
 
-			ourUserIntent = UserIntent.oncemore; //
+			ourUserIntent = UserIntent.oncemore; 
 
 		} else if (m3.find()) {
 
@@ -748,7 +787,7 @@ public class AlexaSkillSpeechlet
 		SsmlOutputSpeech speech = new SsmlOutputSpeech();
 		if (correct == true) {
 
-			speech.setSsml("<speak>" + question.getAlexaCorrectAnswer() + " du hast insgesamt" + (counter - 1)
+			speech.setSsml("<speak>" + word.getArtikel()+ word.getWord() +" gehört zur Gruppe" +word.getWortgruppe() +" du hast insgesamt" + (counter - 1)
 					+ " Punkte erreicht </speak>");
 
 		} else {
@@ -759,7 +798,7 @@ public class AlexaSkillSpeechlet
 
 		SsmlOutputSpeech repromptSpeech = new SsmlOutputSpeech();
 
-		repromptSpeech.setSsml("<speak><emphasis level=\"strong\">Hey!</emphasis> you still there?</speak>");
+		repromptSpeech.setSsml("<speak><emphasis level=\"strong\">Hey!</emphasis> bist du noch da?</speak>");
 
 		Reprompt rep = new Reprompt();
 
@@ -776,7 +815,7 @@ public class AlexaSkillSpeechlet
 	}
 
 	/// read till all questions are reached  
-	private SpeechletResponse askUserResponseQuestion(String question, int counter) {
+	private SpeechletResponse askUserResponseQuestion(String word, int counter) {
 
 		SsmlOutputSpeech speech = new SsmlOutputSpeech();
 
@@ -791,9 +830,7 @@ public class AlexaSkillSpeechlet
 
 			speech.setSsml(
 
-					"<speak> hier ist deine Frage <audio src=\"soundbank://soundlibrary/alarms/beeps_and_bloops/bell_02\"/>"
-
-							+ question + "</speak>");
+					"<speak> hier ist deine Frage <audio src=\"soundbank://soundlibrary/alarms/beeps_and_bloops/bell_02\"/> zu welcher Wortgruppe gehört das Wort"+ word + "</speak>");
 
 		}
 
