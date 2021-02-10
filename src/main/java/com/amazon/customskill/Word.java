@@ -6,12 +6,12 @@ import java.sql.Statement;
 import java.util.Random;
 
 public class Word {
-	static String Artikel;
-	static String Wortgruppe; // Correct Answer 
-	private String AlexaCorrectAnswer = null;
-	static String Word;
-	static String Level;
-	static int WordID;
+	public static String Artikel;
+	public static String Wortgruppe; // Correct Answer 
+	public static String AlexaCorrectAnswer = null;
+	public static String Word;
+	public static String Level;
+	public static int WordID;
 	private static Connection con = null;
 	private static Statement stmt = null;// Sql statement 
 	Random random = new Random(); // fuer Randomisierte Auswahl der Woerter 
@@ -58,7 +58,7 @@ public class Word {
 			con = DBConnection.getConnection();
 			stmt = con.createStatement();
 			ResultSet rs = stmt
-					.executeQuery("SELECT *  FROM Word where Schwierigkeit = '" + Level + "' and WordID =" + rand + "");
+					.executeQuery("SELECT *  FROM Words where Schwierigkeit = '" + Level + "' and WordID =" + rand + "");
 			while (rs.next()) {
 				Word = rs.getString("Wort");
 				WordID = rs.getInt("WordID");

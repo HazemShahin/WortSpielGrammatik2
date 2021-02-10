@@ -10,24 +10,23 @@ public class DatenbankTest {
 
 	private static Connection con = null;
 	private static Statement stmt = null;
+	public static String Wortgruppe; // Correct Answer 
+	public static String correctAnswer = null;
+	public static String Word;
 
 
 	public static void main (String[] args) throws URISyntaxException {
 
 	//	System.out.println(DatenbankTest.class.getClassLoader().getResource("utterances.txt").toURI());
 		
-		try {
-			con = DBConnection.getConnection();
-			stmt = con.createStatement();
-			ResultSet rs = stmt
-					.executeQuery("SELECT * FROM Words");
-			String lvl = rs.getString("Schwierigkeit");
-			String word = rs.getString("Wort");
-			String correctAnswer = rs.getString("Wortgruppe");
-			System.out.println(word+"\t"+correctAnswer);
-		} catch (Exception e){
-			e.printStackTrace();
-		}
+		Word word = new Word("schwer");
+
+		Word = word.selectWord();
+
+		correctAnswer = word.getWortgruppe();
+	
+			System.out.println(Word+"\t"+correctAnswer);
+		
 	}
 
 

@@ -270,7 +270,7 @@ public class AlexaSkillSpeechlet
 
 	public void selectWord(String l) {
 
-		switch (Level) {
+		switch (l) {
 
 		case "leicht": {
 
@@ -522,9 +522,9 @@ public class AlexaSkillSpeechlet
 //selectWord(Level); 
 
 		case Word: {
-			if(word.rand<wordnum) {
+			if(word.rand < wordnum) {
 			word.rand++;
-			res = askUserResponseQuestion(Word, counter);
+			res = askUserResponseQuestion(thisWord, counter);
 			recState = RecognitionState.Answer;
 			break;
 			}
@@ -532,14 +532,16 @@ public class AlexaSkillSpeechlet
 		}
 		case leicht: {
 			selectWord("leicht");
-			res = askUserResponseQuestion(Word, counter);
-			recState = RecognitionState.Answer;
+			System.out.println(thisWord);
+			res = askUserResponseQuestion(thisWord,counter);// Counter 
+//			recState = RecognitionState.Answer;
+	//		System.out.println("uzhuilöhjksh");
 			break;
 		}
 		case schwer: {
 
 			selectWord("schwer");
-			res = askUserResponseQuestion(Word, counter);
+			res = askUserResponseQuestion(thisWord, counter);
 			recState = RecognitionState.Answer;
 			
 			break;
@@ -547,7 +549,7 @@ public class AlexaSkillSpeechlet
 		case sehrschwer: {
 
 			selectWord("schwer");
-			res = askUserResponseQuestion(Word, counter);
+			res = askUserResponseQuestion(thisWord, counter);
 			recState = RecognitionState.Answer;
 			
 			break;
@@ -618,7 +620,7 @@ public class AlexaSkillSpeechlet
 																																		// one
 																																		// alone
 		String pattern2 = "(was)?nochmal( bitte)?";
-		String pattern3 = "(Ich nehme )?(Niveau )?(Stufe)?(leicht)(bitte)?";
+		String pattern3 = "leicht"; //"(Ich nehme )?(Niveau )?(Stufe)?(leicht)(bitte)?";
 		String pattern4 = "(Ich nehme )?(Niveau )?(Stufe)?(schwer)(bitte)?";
 		String pattern5 = "(Ich nehme )?(Niveau )?(Stufe)?(sehr schwer)(bitte)?";
 		String pattern6 = "\\bnein\\b";
@@ -814,7 +816,7 @@ public class AlexaSkillSpeechlet
 
 	}
 
-	/// read till all questions are reached  
+	/// read till all questions are reached  String 
 	private SpeechletResponse askUserResponseQuestion(String word, int counter) {
 
 		SsmlOutputSpeech speech = new SsmlOutputSpeech();
@@ -826,14 +828,13 @@ public class AlexaSkillSpeechlet
 					"<speak> alle fragen durch <audio src=\"soundbank://soundlibrary/alarms/beeps_and_bloops/bell_02\"/> </speak>");
 
 		} else {
-//
 
-			speech.setSsml(
 
-					"<speak> hier ist deine Frage <audio src=\"soundbank://soundlibrary/alarms/beeps_and_bloops/bell_02\"/> zu welcher Wortgruppe gehört das Wort"+ word + "</speak>");
+
+			speech.setSsml(	"<speak> hier ist deine Frage zu welcher Wortgruppe gehört das Wort</speak>");
 
 		}
-
+			System.out.println(thisWord+"F");
 // reprompt after 8 seconds 
 		SsmlOutputSpeech repromptSpeech = new SsmlOutputSpeech();
 		repromptSpeech.setSsml("<speak><emphasis level=\"strong\">Hey!</emphasis> noch da?</speak>");
