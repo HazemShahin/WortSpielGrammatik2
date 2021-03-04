@@ -20,8 +20,6 @@ package com.amazon.customskill;
 
 import com.amazon.customskill.Word;
 
-import com.amazon.customskill.Question;
-
 import java.io.File;
 
 import java.io.IOException;
@@ -99,15 +97,6 @@ import com.amazon.speech.ui.SsmlOutputSpeech;
  * Logger Classe überprüfen und Ordentlich testen
  * */
 
-/* االي قاضل 
- * اكتب الاربع دوال الي في ال ريكوجنيشن ستيت
- * ممكن تجمع دالتين بتوع اتاكد نعم او لا مع الاعاده بتاع السوال؟
- * اجمع دالتين اسال المستهلك كلمه و سوال مع بعض 
- * اجمع دالتين اتاكد  كلمه و سوال مع بعض
- * حاول تشيل كلمه و سوال من النوايا بتاع المستهلك
- * وصل الدادتا بيز
- * 
- * */
 
 /* 
 
@@ -129,15 +118,15 @@ public class AlexaSkillSpeechlet
 
 // Var Number of Words (Zahl) 
 
-	private Question question;
+	//private Question question;
 	private Word word;
-	int counter = 0;
+	public static int  counter = 0;
 	static int wordnum;
 	static boolean newWord = false;
 	static boolean repeat;
-	static String Question = "";
+	//static String Question = "";
 	static String Word = "";
-
+	static boolean beendet = false;
 	static String correctAnswer = "";
 
 	private String thisWord;
@@ -145,8 +134,11 @@ public class AlexaSkillSpeechlet
 	private String Level;
 
 	private int WordID;
+	public Random rand;
+	ArrayList<String> templist;
+	ArrayList<String> nextwordlist;
+   int punkte = 0;
 
-// Was der User gesagt hat 
 
 	public static String userRequest;
 
@@ -163,7 +155,7 @@ public class AlexaSkillSpeechlet
 	private static enum UserIntent {
 
 		Yes, No, Nomen, Verben, Adjektiven, Präpositionen, leicht, schwer, sehrschwer, beenden, question, Word, //Level,
-		zehn, zwanzig, dreizig, oncemore // question,Word gama3 fe wa7da
+		zehn, zwanzig, dreizig, nochmal // question,Word Sehlohom
 
 	};
 	//obj dec
@@ -220,7 +212,6 @@ public class AlexaSkillSpeechlet
 		}
 
 		return utterances;
-
 	}
 
 // Datenbank für Quizfragen // del
@@ -274,13 +265,13 @@ public class AlexaSkillSpeechlet
 
 		case "leicht": {
 
-			Word word = new Word("leicht");
+			word = new Word("leicht");
 
-			thisWord = word.selectWord();
+			templist = word.selectWord();
 
-			WordID = word.getWordID();
+			//thisWord = word.checkAnswer(thisWord);
 
-			Level = "leicht";
+			//Level = "leicht";
 
 			break;
 
@@ -290,7 +281,7 @@ public class AlexaSkillSpeechlet
 
 			Word word = new Word("schwer");
 
-			thisWord = word.selectWord();
+			//thisWord = word.selectWord();
 
 			WordID = word.getWordID();
 
@@ -302,7 +293,7 @@ public class AlexaSkillSpeechlet
 
 			Word word = new Word("sehrschwer");
 
-			thisWord = word.selectWord();
+			//thisWord = word.selectWord();
 
 			WordID = word.getWordID();
 
@@ -315,6 +306,7 @@ public class AlexaSkillSpeechlet
 		}
 
 	}
+	
 
 // Hier gehen wir rein, wenn der User etwas gesagt hat 
 
@@ -349,10 +341,13 @@ public class AlexaSkillSpeechlet
 			recState = RecognitionState.Answer;
 			break;
 		case YesNoWiederholung:
-			resp = evaluateYesNoWord(userRequest);
+			beendet = true;
+			resp = evaluateYesNoWiederholung(userRequest);
+			recState = RecognitionState.Answer;
 			break;
 		case YesNoWord:
-			resp = evaluateYesNo(userRequest);
+			resp = evaluateYesNoWord(userRequest);
+			recState = RecognitionState.Answer;
 			break;
 			
 
@@ -388,7 +383,8 @@ public class AlexaSkillSpeechlet
 		case Yes: {
 
 			selectWord(Level);
-			res = askUserResponse(Question);
+			newWord= true;
+			//res = askUserResponseQuestion();//
 			recState = RecognitionState.Answer;
 			break;
 			// where is Question defined ?
@@ -413,37 +409,39 @@ public class AlexaSkillSpeechlet
 
 	}
 
-	/*
-	 * 
-	 * private SpeechletResponse evaluateYesNoWiederholung(newWord) {
-	 * 
-	 * SpeechletResponse res = null;
-	 * 
-	 * recognizeUserIntent(userRequest);
-	 * 
-	 * switch (ourUserIntent) {
-	 * 
-	 * 
-	 * case No: {
-	 * 
-	 * question = new Question(WordID); Question = question.selectQuestion(); res =
-	 * askUserResponseQuestion(Question, counter); recState =
-	 * RecognitionState.Answer;
-	 * 
-	 * break;
-	 * 
-	 * } default: {
-	 * 
-	 * res = askUserResponse(utterances.get(""));
-	 * 
-	 * }
-	 * 
-	 * }
-	 * 
-	 * return res;
-	 * 
-	 * }
-	 */
+	
+	
+private SpeechletResponse evaluateYesNoWiederholung(String userRequest) {
+	
+	SpeechletResponse res = null;
+	
+	recognizeUserIntent(userRequest);
+	
+	switch (ourUserIntent) {
+	
+	
+	case Yes: {
+		
+		counter = 0;
+		createRandList(9, word.getRnlist(), beendet);
+		res = askUserResponseQuestion(nextwordlist, 10, 0);
+
+	break;
+	
+	} default: {
+		res = responseWithFlavour(utterances.get("goodbyeMsg"), 0);
+		
+	res = askUserResponse(utterances.get(""));
+	
+	
+	}
+	
+	}
+	
+	return res;
+	
+	}
+	
 /*
 	private SpeechletResponse askUserResponseYesNoWiederholung(boolean again) {
 		SsmlOutputSpeech speech = new SsmlOutputSpeech();
@@ -483,20 +481,23 @@ public class AlexaSkillSpeechlet
 		switch (ourUserIntent) {
 		case Yes: {
 			
-			res = askUserResponseWord(newWord);
-			break;
+			logger.info("Received following text: [" + userRequest + "] + counter " + counter + "arr size " + templist.size() );
+							if(counter < templist.size()) {
+				res = askUserResponseQuestion(templist,10,counter++);// Counter 
+				recState = RecognitionState.Answer;
+				} 
+				else {
+					recState = RecognitionState.YesNoWiederholung;
+				res = responseWithFlavour("Deine Liste ist durch. Wenn du noch einmal spielen möchtest sagen Sie bitte yes oder beenden um das Spiel zu beenden", 0);
+				
+				}
+				break;
+			
 		}
 		case No: {
-// 
+			res = responseWithFlavour(utterances.get("goodbyeMsg"), 0);
+			break;
 
-			while (counter < wordnum + 1) {
-				counter++;
-				word = new Word(WordID);
-				Word = word.selectWord();
-				res = askUserResponseQuestion(Word, counter);
-				recState = RecognitionState.Answer;
-				break;
-			}
 
 		}
 		case beenden: {
@@ -514,206 +515,234 @@ public class AlexaSkillSpeechlet
 	private SpeechletResponse evaluateAnswer(String userRequest) {
 
 		SpeechletResponse res = null;
-//
+
 		recognizeUserIntent(userRequest);
 
 		switch (ourUserIntent) {
 
 //selectWord(Level); 
 
-		case Word: {
-			if(word.rand < wordnum) {
-			word.rand++;
-			res = askUserResponseQuestion(thisWord, counter);
-			recState = RecognitionState.Answer;
-			break;
-			}
-
-		}
+		
 		case leicht: {
 			selectWord("leicht");
-			System.out.println(thisWord);
-			res = askUserResponseQuestion(thisWord,counter);// Counter 
-//			recState = RecognitionState.Answer;
-	//		System.out.println("uzhuilöhjksh");
+			recState = RecognitionState.Answer;
+			createRandList(9,word.getRnlist(),beendet);
+
+			res = askUserResponseQuestion(templist,1,1);// Counter 
 			break;
 		}
+		
+		/*
+		
 		case schwer: {
 
 			selectWord("schwer");
-			res = askUserResponseQuestion(thisWord, counter);
+			res = askUserResponseQuestion(templist,1,1);// Counter 
 			recState = RecognitionState.Answer;
 			
 			break;
 		}
 		case sehrschwer: {
 
-			selectWord("schwer");
-			res = askUserResponseQuestion(thisWord, counter);
+			selectWord("sehrschwer");
+			res = askUserResponseQuestion(templist,1,1);// Counter 
 			recState = RecognitionState.Answer;
 			
 			break;
 		}
+		case beenden: {
+			res = tellUserAndFinish(buildString(utterances.get("counterMsg"), String.valueOf(counter), "") + " "
+					+ utterances.get("goodbyeMsg"));//  is it right ? 
+			
+			break;
+		}
+		*/
+		case Yes :{
+			wordnum = 10;
+			createRandList(9,word.getRnlist(),beendet);
+			res = askUserResponseQuestion(templist,10, 0);// Counter 
+			recState = RecognitionState.Answer;
+break;
 
-		default: {
+		} 
+		
+		case zwanzig :{
+			wordnum = 20;
+			createRandList(20,word.getRnlist(),beendet);
+			res = askUserResponseQuestion(templist,20,1);// Counter 
 
-			if (ourUserIntent.equals(UserIntent.zehn)) {
+		} 
+		/*
+		case dreizig :{
+			wordnum = 30;
+			createRandList(30,word.getRnlist());
+			res = askUserResponseQuestion(templist,30,1);// Counter 
 
-				wordnum = 10;
-			} else if (ourUserIntent.equals(UserIntent.zwanzig)) {
-				wordnum = 20;
+		} 
+		
+		
+		case Verben :{
+			if (word.checkAnswer(thisWord) == "Verben") {
 
-			} else if (ourUserIntent.equals(UserIntent.dreizig)) {
-				wordnum = 30;
+				logger.info("User answer recognized as correct.");
+				// Counter++;
+				//increasecounter();
 
-			} else if (ourUserIntent.equals(UserIntent.Nomen)
-
-					|| ourUserIntent.equals(UserIntent.Verben)
-
-					|| ourUserIntent.equals(UserIntent.Adjektiven)
-
-					|| ourUserIntent.equals(UserIntent.Präpositionen)
-					
-			) {
-
-				logger.info("User answer =" + ourUserIntent.name().toLowerCase() + "/correct answer="
-						+ word.getWortgruppe());//
-
-				if (ourUserIntent.name().toLowerCase().equals(word.getWortgruppe())) {
-
-					logger.info("User answer recognized as correct.");
-
-					increasecounter();
-
-					res = askUserResponseWord(true);
-
-				}
-			} else {
-
-				res = askUserResponse(utterances.get("errorAnswerMsg"));
+				res = askUserResponseWord(true);
 
 			}
+
+		} 
+*/
+		default: {
+
+			
+	if (ourUserIntent.equals(UserIntent.Nomen)
+
+			|| ourUserIntent.equals(UserIntent.Verben)
+
+			|| ourUserIntent.equals(UserIntent.Adjektiven)
+
+			|| ourUserIntent.equals(UserIntent.Präpositionen)
+			
+	) {
+		
+		
+		
+
+		logger.info("User answer =" + ourUserIntent.name().toLowerCase() + "/correct answer="+ word.checkAnswer(thisWord)+"this Word" + thisWord);//
+
+		if (ourUserIntent.name().toLowerCase().equals(word.checkAnswer(thisWord).toLowerCase())) {
+
+			logger.info("User answer recognized as correct.");
+			// Counter++;
+			//increasecounter();
+
+			res = askUserResponseWord(true);
+
+		}
+	 else {
+		logger.info("User answer recognized as wrong.");
+
+		res = askUserResponseWord(false);
+		 //.
+	 }
+		}
 
 		}
 		}
 		return res;
 	}
 
-// Punkte Anzahl Methode machen.  
 
-	private void increasecounter() {
-
-		if (counter <= wordnum) {
-			counter++;
-		}
-
-	}
 
 // Achtung, Reihenfolge ist wichtig! 
 //WörterAnzahl Eingabe wird hier anerkannt 
+	// Fehler Anfällig 
 	void recognizeUserIntent(String userRequest) {
-
+	
 		userRequest = userRequest.toLowerCase();
 
-		String pattern1 = "(ich nehme )?(Ich wähle )?(Ich denke )?(Ich vermute )?(antwort )?(\\b[Nomen-Präpositionen]\\b)( bitte)?"; // add
-																																		// evry
-																																		// one
-																																		// alone
-		String pattern2 = "(was)?nochmal( bitte)?";
+		//String pattern1 = "(ich nehme )?(Ich wähle )?(Ich denke )?(Ich vermute )?(antwort )?(Nomen)( bitte)?"; 																			// alone
+		String pattern2 = "nochmal";//"(was)?nochmal( bitte)?";
 		String pattern3 = "leicht"; //"(Ich nehme )?(Niveau )?(Stufe)?(leicht)(bitte)?";
 		String pattern4 = "(Ich nehme )?(Niveau )?(Stufe)?(schwer)(bitte)?";
-		String pattern5 = "(Ich nehme )?(Niveau )?(Stufe)?(sehr schwer)(bitte)?";
+		String pattern5 = "sehr schwer";//"(Ich nehme )?(Niveau )?(Stufe)?(sehr schwer)(bitte)?";
 		String pattern6 = "\\bnein\\b";
 		String pattern7 = "\\bja\\b";
 		String pattern8 = "(\\bbeenden\\b) (bitte)?";
-		String pattern9 = "(Ich nehme )?(ich möchte )? Zehn(Wörter)?(Worten)?( bitte)?";
-		String pattern10 = "(Ich nehme )?(ich möchte )? Zwanzig(Wörter)?(Worten)?( bitte)?";
-		String pattern11 = "(Ich nehme )?(ich möchte )? Dreizig(Wörter)?(Worten)?( bitte)?";
-		String pattern12 = " Nomen";
-		String pattern13 = "(Ich nehme )?(ein )?(word)( bitte)?";
-		Pattern p1 = Pattern.compile(pattern1);
-		Matcher m1 = p1.matcher(userRequest);
+		String pattern9 = "yes";//"(Ich nehme )?(ich möchte )? zehn(Wörter)?(Worten)?( bitte)?";
+		String pattern10 = "zwanzig";//"(Ich nehme )?(ich möchte )? zwanzig(Wörter)?(Worten)?( bitte)?";
+		String pattern11 = "dreizig";//"(Ich nehme )?(ich möchte )? dreizig(Wörter)?(Worten)?( bitte)?";
+		String pattern12 = "nomen";//"(ich nehme )?(Ich wähle )?(Ich denke )?(Ich vermute )?(antwort )?(Nomen)( bitte)?";
+		String pattern13 = "(Ich nehme )?(ein )?(wort)( bitte)?";// noch nicht in Gebrauch
+		String pattern14 = "verben"; //(ich nehme )?(Ich wähle )?(Ich denke )?(Ich vermute )?(antwort )?(Verben)( bitte)?";
+		String pattern15 ="adjektiven";// "(ich nehme )?(Ich wähle )?(Ich denke )?(Ich vermute )?(antwort )?(Adjektiven)( bitte)?";
+		String pattern16 = "präpositionen";//"(ich nehme )?(Ich wähle )?(Ich denke )?(Ich vermute )?(antwort )?(Präpositionen)( bitte)?";
+		//Pattern p1 = Pattern.compile(pattern1);
+		//Matcher m1 = p1.matcher(userRequest);
 		Pattern p2 = Pattern.compile(pattern2);
 		Matcher m2 = p2.matcher(userRequest);
 		Pattern p3 = Pattern.compile(pattern3);
 		Matcher m3 = p3.matcher(userRequest);
-		Pattern p4 = Pattern.compile(pattern4);
-		Matcher m4 = p4.matcher(userRequest);
-		Pattern p5 = Pattern.compile(pattern5);
-		Matcher m5 = p5.matcher(userRequest);
-		Pattern p6 = Pattern.compile(pattern6);
-		Matcher m6 = p6.matcher(userRequest);
-		Pattern p7 = Pattern.compile(pattern7);
-		Matcher m7 = p7.matcher(userRequest);
-		Pattern p8 = Pattern.compile(pattern8);
-		Matcher m8 = p8.matcher(userRequest);
+		//Pattern p4 = Pattern.compile(pattern4);
+		//Matcher m4 = p4.matcher(userRequest);
+		//Pattern p5 = Pattern.compile(pattern5);
+		//Matcher m5 = p5.matcher(userRequest);
+		//Pattern p6 = Pattern.compile(pattern6);
+		//Matcher m6 = p6.matcher(userRequest);
+		//Pattern p7 = Pattern.compile(pattern7);
+		//Matcher m7 = p7.matcher(userRequest);
+		//Pattern p8 = Pattern.compile(pattern8);
+		//Matcher m8 = p8.matcher(userRequest);
 		Pattern p9 = Pattern.compile(pattern9);
 		Matcher m9 = p9.matcher(userRequest);
 		Pattern p10 = Pattern.compile(pattern10);
 		Matcher m10 = p10.matcher(userRequest);
-		Pattern p11 = Pattern.compile(pattern11);
-		Matcher m11 = p11.matcher(userRequest);
+//		Pattern p11 = Pattern.compile(pattern11);
+//		Matcher m11 = p11.matcher(userRequest);
 		Pattern p12 = Pattern.compile(pattern12);
 		Matcher m12 = p12.matcher(userRequest);
-		Pattern p13 = Pattern.compile(pattern13);
-		Matcher m13 = p13.matcher(userRequest);
+//		Pattern p13 = Pattern.compile(pattern13);
+//		Matcher m13 = p13.matcher(userRequest);
+		Pattern p14 = Pattern.compile(pattern14);
+		Matcher m14 = p14.matcher(userRequest);
+		Pattern p15 = Pattern.compile(pattern15);
+		Matcher m15 = p15.matcher(userRequest);
+		Pattern p16 = Pattern.compile(pattern16);
+		Matcher m16 = p16.matcher(userRequest);
 
-		if (m1.find()) {
 
-			String answer = m1.group(3);
 
-			switch (answer) {
-			case "Nomen":
-				ourUserIntent = UserIntent.Nomen;
-				break;
-			case "Verben":
-				ourUserIntent = UserIntent.Verben;
-				break;
-			case "Adjektiven":
-				ourUserIntent = UserIntent.Adjektiven;
-				break;
-			case "Präpositionen":
-				ourUserIntent = UserIntent.Präpositionen;
-				break;
-			}
+		if (m2.find()) {
 
-		} else if (m2.find()) {
-
-			ourUserIntent = UserIntent.oncemore; 
+			ourUserIntent = UserIntent.nochmal; 
 
 		} else if (m3.find()) {
 
-			ourUserIntent = UserIntent.leicht;
+			ourUserIntent = UserIntent.leicht;}
 
-		} else if (m4.find()) {
-
-			ourUserIntent = UserIntent.schwer;
-
-		} else if (m5.find()) {
-
-			ourUserIntent = UserIntent.sehrschwer;
-
-		} else if (m6.find()) {
-
+//		} else if (m4.find()) {
+//
+//			ourUserIntent = UserIntent.schwer;
+//
+//		} else if (m5.find()) {
+//
+//			ourUserIntent = UserIntent.sehrschwer;
+//
+//		} else if (m6.find()) {
+//
+//			ourUserIntent = UserIntent.Yes;
+//
+//		} else if (m7.find()) {
+//			ourUserIntent = UserIntent.No;
+//		} else if (m8.find()) {
+//			ourUserIntent = UserIntent.beenden;
+//
+//		}
+			else if (m9.find()) {
 			ourUserIntent = UserIntent.Yes;
-
-		} else if (m7.find()) {
-			ourUserIntent = UserIntent.No;
-		} else if (m8.find()) {
-			ourUserIntent = UserIntent.beenden;
-
-		} else if (m9.find()) {
-			ourUserIntent = UserIntent.zehn;
 		} else if (m10.find()) {
-			ourUserIntent = UserIntent.zwanzig;
-		} else if (m11.find()) {
-			ourUserIntent = UserIntent.dreizig;
-		} else if (m12.find()) {
-			ourUserIntent = UserIntent.question;
-		} else if (m13.find()) {
-			ourUserIntent = UserIntent.Word;
+		    ourUserIntent = UserIntent.zwanzig;
+//		} else if (m11.find()) {
+//			ourUserIntent = UserIntent.dreizig;
+	} else if (m12.find()) {
+		ourUserIntent = UserIntent.Nomen;	} 
+	
+	
+	//else if (m13.find()) {
+//			ourUserIntent = UserIntent.Word;
+//		}
+			else if (m14.find()) {
+			ourUserIntent = UserIntent.Verben;//
+		} 
+ 
+			
+		else if (m15.find()) {
+		ourUserIntent = UserIntent.Adjektiven;
+		} else if (m16.find()) {
+			ourUserIntent = UserIntent.Präpositionen;
 		}
-
 		logger.info("set ourUserIntent to " + ourUserIntent);
 
 	}
@@ -766,12 +795,9 @@ public class AlexaSkillSpeechlet
 
 		SsmlOutputSpeech speech = new SsmlOutputSpeech();
 
-		speech.setSsml("<speak>" + text + "  <audio src=\"soundbank://soundlibrary/alarms/beeps_and_bloops/bell_02\"/> "
-
-				+ Question + "</speak>");
+		speech.setSsml("<speak>" + text + "  <audio src=\"soundbank://soundlibrary/alarms/beeps_and_bloops/bell_02\"/> </speak>");
 
 // reprompt after 8 seconds 
-
 		SsmlOutputSpeech repromptSpeech = new SsmlOutputSpeech();
 
 		repromptSpeech.setSsml("<speak><emphasis level=\"strong\">Hey!</emphasis> bist du noch da?</speak>");
@@ -783,14 +809,23 @@ public class AlexaSkillSpeechlet
 		return SpeechletResponse.newAskResponse(speech, rep);
 
 	}
+	
+	/*
+	 * Responding to the UserAnswer in case rivhtig oder Falsch.
+	 * 
+	 * 
+	 * 
+	 * */
 
 	private SpeechletResponse askUserResponseWord(boolean correct) {
 
 		SsmlOutputSpeech speech = new SsmlOutputSpeech();
 		if (correct == true) {
+			punkte++;
+			speech.setSsml("<speak>" + thisWord +" gehört zur Gruppe" +word.getWortgruppe() +" du hast insgesamt" + punkte
+					+ " Punkte erreicht. möchtest du  ein anderes  Wort ?</speak>");
+			recState = RecognitionState.YesNoWord;
 
-			speech.setSsml("<speak>" + word.getArtikel()+ word.getWord() +" gehört zur Gruppe" +word.getWortgruppe() +" du hast insgesamt" + (counter - 1)
-					+ " Punkte erreicht </speak>");
 
 		} else {
 			speech.setSsml("<speak>das war leider Falsch möchtest du nochmal hören ? oder weiter machen</speak>");
@@ -808,33 +843,105 @@ public class AlexaSkillSpeechlet
 
 		return SpeechletResponse.newAskResponse(speech, rep);
 
-		// هل ممكن انخلي علي اسال رد السوال و الكلمه بداله واحده ؟ في الغالب لازم
-		// ********yesnoQ + YesnoW
 
 		/****************************************************/ // Alexa handling responses and calling method
 																// evaluateYesNoQuestion (Wiederholug)
 
 	}
+	
+	
+	
+	public void createRandList (int numofwords,ArrayList<String> List5,boolean nextWordbool){		
+		templist = new ArrayList<String>();
+		nextwordlist = new ArrayList<String>();
+		Random random = new Random();
+		int ran;
+		int max = 80;
+        int min = 1; 
+	    String test; 
+		int index = 0;
+	    if(nextWordbool == false) {
+	    for( String S : List5) {
+			if(templist.size() <= numofwords)
+			{
+				ran = (int)(random.nextInt((max - min) + 1) + min);
+				test = List5.get(ran);
+				templist.add(test);
+				
+				//System.out.println("*************************************" + test);
+			}
+	    }
+			
+		} else {
+			for( String S : templist) {
+				if(S != List5.get(index))
+				{
+					
+					nextwordlist.add(List5.get(index));
+					
+					//System.out.println("*************************************" + test);
+				}
+				
+				
+				index++;
+		    }
+			
+			
+		}
+		//DatenbankTest dt = new DatenbankTest();
+		//dt.testFunc(templist);
+			
+	}
+	
+	
 
 	/// read till all questions are reached  String 
-	private SpeechletResponse askUserResponseQuestion(String word, int counter) {
+	private SpeechletResponse askUserResponseQuestion(ArrayList<String> rnq, int counter, int index) {
 
 		SsmlOutputSpeech speech = new SsmlOutputSpeech();
+		
+		//countershouldbe deleted. 
+		if (counter == 10) {
+		//wordnum = 10;
+			
+		
+		speech.setSsml("<speak>  zu welcher Wortgruppe gehört das Wort "+ rnq.get(index) + " </speak>");
+	
+		
+		thisWord =  rnq.get(index);
+		logger.info("this word has "+thisWord);
+		}
+		/*
+		else if (counter ==20) {
+			
+		wordnum = 20;
+		speech.setSsml("<speak> <voice name=\"Brian\"> zu welcher Wortgruppe gehört das Wort "
+				+ word + " </voice> </speak>");
+		}
+		else if (counter ==30) {
+		wordnum = 30;
+		speech.setSsml("<speak> <voice name=\"Brian\"> zu welcher Wortgruppe gehört das Wort "
+				+ word + " </voice> </speak>");
+		
 
-		if (counter == wordnum) {
+	} else 	if (counter == wordnum) {
 
-			speech.setSsml(
+			speech.setSsml("<speak> <voice name=\"Brian\"> zu welcher Wortgruppe gehört das Wort Besoo  </voice> </speak>");
+			
+			/*speech.setSsml(
 
-					"<speak> alle fragen durch <audio src=\"soundbank://soundlibrary/alarms/beeps_and_bloops/bell_02\"/> </speak>");
+					"<speak> alle fragen durch <audio src=\"soundbank://soundlibrary/alarms/beeps_and_bloops/bell_02\"/> </speak>");*/
 
-		} else {
+		//} 
+		
+		else {
 
 
 
-			speech.setSsml(	"<speak> hier ist deine Frage zu welcher Wortgruppe gehört das Wort</speak>");
+			speech.setSsml(	"<speak> mit wie vielen Wörter möchtest du anfangen 10 20 30? </speak>");
 
 		}
-			System.out.println(thisWord+"F");
+			
 // reprompt after 8 seconds 
 		SsmlOutputSpeech repromptSpeech = new SsmlOutputSpeech();
 		repromptSpeech.setSsml("<speak><emphasis level=\"strong\">Hey!</emphasis> noch da?</speak>");
@@ -863,6 +970,7 @@ public class AlexaSkillSpeechlet
 		case 0:
 
 			speech.setSsml("<speak><amazon:effect name=\"whispered\">" + text + "</amazon:effect></speak>");
+			
 
 			break;
 
