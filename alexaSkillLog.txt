@@ -1,2 +1,60 @@
 INFO    2020-10-07 12:29:43,745 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Error
 INFO    2020-10-07 12:29:48,273 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to A
+INFO    2021-03-20 20:55:30,737 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Yes
+INFO    2021-03-20 20:55:35,161 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Verben
+INFO    2021-03-20 20:55:38,970 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to No
+INFO    2021-03-20 20:55:42,698 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to No
+INFO    2021-03-20 20:55:46,186 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to No
+INFO    2021-03-20 20:55:51,241 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Yes
+INFO    2021-03-20 21:06:45,600 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Nomen
+INFO    2021-03-20 21:06:48,009 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Nomen
+INFO    2021-03-20 21:06:50,505 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Nomen
+INFO    2021-03-20 21:06:52,041 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Yes
+INFO    2021-03-20 21:06:53,657 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Yes
+INFO    2021-03-20 21:06:55,705 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Yes
+INFO    2021-03-20 21:06:58,377 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Yes
+INFO    2021-03-20 21:07:00,137 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Yes
+INFO    2021-03-20 21:07:01,656 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Yes
+INFO    2021-03-20 21:07:04,408 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Verben
+INFO    2021-03-20 21:07:05,928 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Verben
+INFO    2021-03-20 21:07:09,449 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Yes
+INFO    2021-03-21 13:38:50,425 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Yes
+INFO    2021-03-21 13:38:52,886 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Yes
+INFO    2021-03-21 14:10:24,392 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Yes
+INFO    2021-03-21 14:10:26,931 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Yes
+INFO    2021-03-21 14:10:28,867 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Yes
+INFO    2021-03-21 14:10:31,587 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Yes
+INFO    2021-03-21 14:10:34,306 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Yes
+INFO    2021-03-21 14:10:35,971 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Yes
+INFO    2021-03-21 14:10:38,931 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Nomen
+INFO    2021-03-21 14:10:44,146 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Verben
+INFO    2021-03-21 14:10:49,427 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Yes
+INFO    2021-03-21 14:46:13,461 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to zwanzig
+INFO    2021-03-21 14:46:18,559 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to dreizig
+INFO    2021-03-21 14:46:21,920 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to zwanzig
+INFO    2021-03-21 14:46:24,160 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to dreizig
+INFO    2021-03-21 14:46:25,808 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to zehn
+INFO    2021-03-21 14:46:27,184 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to dreizig
+INFO    2021-03-21 14:46:28,064 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to zwanzig
+INFO    2021-03-25 21:49:28,913 com.amazon.customskill.AlexaSkillSpeechlet  - userRequest is nein
+INFO    2021-03-25 21:49:28,923 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to No
+INFO    2021-03-25 21:49:31,039 com.amazon.customskill.AlexaSkillSpeechlet  - userRequest is no
+INFO    2021-03-25 21:49:31,039 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to No
+INFO    2021-03-25 21:49:33,791 com.amazon.customskill.AlexaSkillSpeechlet  - userRequest is nom
+INFO    2021-03-25 21:49:33,792 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to No
+INFO    2021-03-25 21:49:40,271 com.amazon.customskill.AlexaSkillSpeechlet  - userRequest is verben
+INFO    2021-03-25 21:49:40,272 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Verben
+INFO    2021-03-25 21:49:42,559 com.amazon.customskill.AlexaSkillSpeechlet  - userRequest is nomen
+INFO    2021-03-25 21:49:42,560 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Nomen
+INFO    2021-03-25 21:49:45,616 com.amazon.customskill.AlexaSkillSpeechlet  - userRequest is no
+INFO    2021-03-25 21:49:45,617 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Nomen
+INFO    2021-03-25 21:49:56,368 com.amazon.customskill.AlexaSkillSpeechlet  - userRequest is nein
+INFO    2021-03-25 21:49:56,368 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to No
+INFO    2021-03-25 21:50:17,984 com.amazon.customskill.AlexaSkillSpeechlet  - userRequest is nein
+INFO    2021-03-25 21:50:17,994 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to No
+INFO    2021-03-25 21:50:19,711 com.amazon.customskill.AlexaSkillSpeechlet  - userRequest is ja
+INFO    2021-03-25 21:50:19,712 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Yes
+INFO    2021-03-25 21:50:22,815 com.amazon.customskill.AlexaSkillSpeechlet  - userRequest is nein
+INFO    2021-03-25 21:50:22,816 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to No
+INFO    2021-03-25 21:50:29,776 com.amazon.customskill.AlexaSkillSpeechlet  - userRequest is ja
+INFO    2021-03-25 21:50:29,776 com.amazon.customskill.AlexaSkillSpeechlet  - set ourUserIntent to Yes
