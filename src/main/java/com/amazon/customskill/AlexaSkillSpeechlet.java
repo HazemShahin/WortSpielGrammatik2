@@ -505,12 +505,17 @@ case beenden: {
 			
 			logger.info("Received following text: [" + userRequest + "] + counter " + counter + "arr size " + templist.size() );
 							if(counter < templist.size()-1) {
+<<<<<<< Upstream, based on origin/master
 								counter++;
 				res = askUserResponseQuestion(templist,wordnum,counter);// Counter 
 				
 				logger.info("Counter in evaluateYesNoWord " + counter );
 
 			//	recState = RecognitionState.Answer;
+=======
+				res = askUserResponseQuestion(templist,10,counter++);// Counter 
+				recState = RecognitionState.Answer;
+>>>>>>> 032aeac zum testen Niveau Leicht und zehn ( hier wiederholt  er die Frage.)
 				} 
 				else {
 					//recState = RecognitionState.YesNoWiederholung;
@@ -672,9 +677,15 @@ break;
 		String pattern6 = "ja";
 		String pattern7 = "nein";
 		String pattern8 = "(\\bbeenden\\b) (bitte)?";
+<<<<<<< Upstream, based on origin/master
 		String pattern9 = "(zehn|10)";//"(Ich nehme )?(ich möchte )? zehn(Wörter)?(Worten)?( bitte)?";
 		String pattern10 = "(zwanzig|20)";//"(Ich nehme )?(ich möchte )? zwanzig(Wörter)?(Worten)?( bitte)?";
 		String pattern11 = "(dreizig|30)";//"(Ich nehme )?(ich möchte )? dreizig(Wörter)?(Worten)?( bitte)?";
+=======
+		String pattern9 = "zehn";//"(Ich nehme )?(ich möchte )? zehn(Wörter)?(Worten)?( bitte)?";
+		String pattern10 = "zwanzig";//"(Ich nehme )?(ich möchte )? zwanzig(Wörter)?(Worten)?( bitte)?";
+		String pattern11 = "dreizig";//"(Ich nehme )?(ich möchte )? dreizig(Wörter)?(Worten)?( bitte)?";
+>>>>>>> 032aeac zum testen Niveau Leicht und zehn ( hier wiederholt  er die Frage.)
 		String pattern12 = "nomen";//"(ich nehme )?(Ich wähle )?(Ich denke )?(Ich vermute )?(antwort )?(Nomen)( bitte)?";
 		String pattern13 = "(Ich nehme )?(ein )?(wort)( bitte)?";// noch nicht in Gebrauch
 		String pattern14 = "verben"; //(ich nehme )?(Ich wähle )?(Ich denke )?(Ich vermute )?(antwort )?(Verben)( bitte)?";
@@ -723,6 +734,7 @@ break;
 
 			ourUserIntent = UserIntent.leicht;}
 
+<<<<<<< Upstream, based on origin/master
 		 else if (m4.find()) {
 
 			ourUserIntent = UserIntent.schwer;
@@ -744,6 +756,26 @@ break;
 			ourUserIntent = UserIntent.beenden;
 
 		}
+=======
+//		} else if (m4.find()) {
+//
+//			ourUserIntent = UserIntent.schwer;
+//
+//		} else if (m5.find()) {
+//
+//			ourUserIntent = UserIntent.sehrschwer;
+//
+//		} else if (m6.find()) {
+//
+//			ourUserIntent = UserIntent.Yes;
+//
+//		} else if (m7.find()) {
+//			ourUserIntent = UserIntent.No;
+//		} else if (m8.find()) {
+//			ourUserIntent = UserIntent.beenden;
+//
+//		}
+>>>>>>> 032aeac zum testen Niveau Leicht und zehn ( hier wiederholt  er die Frage.)
 			else if (m9.find()) {
 			ourUserIntent = UserIntent.zehn;
 		} else if (m10.find()) {
@@ -776,7 +808,6 @@ break;
 		
 		
 		logger.info("set ourUserIntent to " + ourUserIntent);
-
 	}
 
 	@Override
