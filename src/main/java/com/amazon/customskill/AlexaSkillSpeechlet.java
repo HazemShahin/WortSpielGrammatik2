@@ -376,8 +376,12 @@ public class AlexaSkillSpeechlet
 			res = askUserResponseQuestion(templist,wordnum,counter);
 			break;
 		}
+		case quatsch: {
+			res = askUserResponse("Das habe ich nicht Verstanden");
+			break;
+		}
 		default: {
-			res = responseWithFlavour(utterances.get("errorYesNoMsg"), 0);
+			res = askUserResponse("Das habe ich nicht Verstanden");
 		}
 		}
 		return res;
@@ -421,6 +425,10 @@ case beenden: {
 
 case nochmal: {
 	res = askUserResponseQuestion(templist,wordnum,counter);
+	break;
+}
+case quatsch: {
+	res = askUserResponse("Das habe ich nicht Verstanden");
 	break;
 }
 
@@ -502,8 +510,12 @@ case nochmal: {
 			res = askUserResponseQuestion(templist,wordnum,counter);
 			break;
 		}
+		case quatsch: {
+			res = askUserResponse("Das habe ich nicht Verstanden");
+			break;
+		}
 		default: {
-			res = responseWithFlavour(utterances.get("errorYesNoMsg"), 0);
+			res = askUserResponse("Das habe ich nicht Verstanden");
 			
 		}
 		}
@@ -581,7 +593,10 @@ break;
 			res = askUserResponseQuestion(templist,wordnum,counter);
 			break;
 		}
-		
+		case quatsch: {
+			res = askUserResponse("Das habe ich nicht Verstanden");
+			break;
+		}
 	
 		default: {
 

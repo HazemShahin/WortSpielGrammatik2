@@ -5,5 +5,5 @@ continueMsg = M�chtest du weiterspielen?
 congratsMsg = Herzlichen Glückwunsch! 
 goodbyeMsg = Das hat Spa� gemacht! Bis zum n�chsten Mal!
 sumMsg = Sie haben {replacement} Punkte bekommen.
-errorYesNoMsg = Das habe ich nicht verstanden. Sagen Sie bitte ja oder nein.
+errorYesNoMsg = Das habe ich nicht verstanden.
 errorAnswerMsg = Das habe ich nicht verstanden. Sagen Sie bitte Verben, Nomen, Adjektiven, beenden oder wiederholen.
