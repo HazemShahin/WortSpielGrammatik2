@@ -84,25 +84,7 @@ import com.amazon.speech.ui.Reprompt;
 
 import com.amazon.speech.ui.SsmlOutputSpeech;
 
-/* Zu machen 18.01.21
- * evaluateYesNO Method
- * evaluateYesNoWiederholung Method
- * evaluateAnswer Method
- * erstelle eine Verbindung mit der neuen DB von Gruppe in  MsTeams.
- * Github Problem lösen
- * 19.01
- * evaluateWordnumChice Method: Denk daran zwei Variabeln zu implementieren für Werte der Zufälligen Zahl(Alt und Aktuell). Grenze der Zahl ist wordnum 10,20,30 
- * Brauchst du unbedingt 2 Methoden askUserResponse-Word&Question oder reicht eine Methode für die Auswahl von DB 
- * Utterance.txt umändern. Besser als alles in Strings zu speichern.
- * Logger Classe überprüfen und Ordentlich testen
- * */
 
-
-/* 
-
-* This class is the actual skill. Here you receive the input and have to produce the speech output.  
-
-*/
 
 public class AlexaSkillSpeechlet
 
@@ -114,25 +96,15 @@ public class AlexaSkillSpeechlet
 
 	static Logger logger = LoggerFactory.getLogger(AlexaSkillSpeechlet.class);
 
-// Variablen, die wir auch schon in DialogOS hatten 
-
-// Var Number of Words (Zahl) 
-
-	//private Question question;
 	private Word word;
 	public static int  counter = 0;
 	public int wordnum=0;
 	public boolean newWord = false;
-	//public boolean repeat;
-	//static String Question = "";
 	static String Word = "";
 	static boolean beendet = false;
 	static String correctAnswer = "";
-
 	private String thisWord;
-
 	private String Level;
-
 	private int WordID;
 	public Random rand;
 	ArrayList<String> templist;
@@ -154,8 +126,7 @@ public class AlexaSkillSpeechlet
 
 	private static enum UserIntent {
 
-		Yes, No, Nomen, Verben, Präposition, leicht, schwer, sehrschwer, beenden, question, Word, //Level,
-		zehn, zwanzig, dreizig, nochmal, Adjektiv, quatsch
+		Yes, No, Nomen, Verben, Präposition, leicht, schwer, sehrschwer, beenden, zehn, zwanzig, dreizig, nochmal, Adjektiv, quatsch
 
 	};
 	//obj dec
@@ -240,13 +211,7 @@ public class AlexaSkillSpeechlet
 
 	}
 
-// Wir starten den Dialog: 
-
-// * Hole die erste Frage aus der Datenbank 
-
-// * Lies die Welcome-Message vor, dann die Frage 
-
-// * Dann wollen wir eine Antwort erkennen 
+ 
 
 	@Override
 
@@ -258,6 +223,7 @@ public class AlexaSkillSpeechlet
 	}
 
 // Ziehe eine Wort aus der Datenbank, abhängig vom NiveauID 
+	// selection of the Words based on Level
 
 	public void selectWord(String l) {
 
@@ -359,14 +325,9 @@ public class AlexaSkillSpeechlet
 
 	}
 
-// Ja/Nein-Fragen kommen genau dann vor, wenn wir wissen wollen, ob der User weitermachen will. hier I want to ask that  
+// Ja/Nein-Fragen kommen genau dann vor, wenn wir wissen wollen, ob der User weitermachen will.
+	// nach einer Falschen Antwort wird User gefragt ob er nochmal hören möchte. 
 
-// only if the User said  a  wrong answer  or  got the full points of the Game.*** 
-
-// Wenn Ja, stelle die nächste Frage 
-
-// Wenn Nein, nenne die Gewinncounterme und verabschiede den user 
-// Auswahl der Worter falls Ja 
 	private SpeechletResponse evaluateYesNo(String userRequest) {
 
 		SpeechletResponse res = null;
@@ -421,7 +382,7 @@ public class AlexaSkillSpeechlet
 	
 	}
 
-	
+	// eine Andere Liste Erstellen zum Weiterspielen
 	
 private SpeechletResponse evaluateYesNoWiederholung(String userRequest) {
 	
@@ -505,17 +466,12 @@ case beenden: {
 			
 			logger.info("Received following text: [" + userRequest + "] + counter " + counter + "arr size " + templist.size() );
 							if(counter < templist.size()-1) {
-<<<<<<< Upstream, based on origin/master
 								counter++;
 				res = askUserResponseQuestion(templist,wordnum,counter);// Counter 
 				
 				logger.info("Counter in evaluateYesNoWord " + counter );
 
 			//	recState = RecognitionState.Answer;
-=======
-				res = askUserResponseQuestion(templist,10,counter++);// Counter 
-				recState = RecognitionState.Answer;
->>>>>>> 032aeac zum testen Niveau Leicht und zehn ( hier wiederholt  er die Frage.)
 				} 
 				else {
 					//recState = RecognitionState.YesNoWiederholung;
@@ -543,7 +499,7 @@ case beenden: {
 		return res;
 	}
 
-// Diese Methode ist noch nicht fertig implementiert.
+// this method handeles different intents of the user such as Level selection and word numbers.and answers 
 	private SpeechletResponse evaluateAnswer(String userRequest) {
 
 		SpeechletResponse res = null;
@@ -552,7 +508,7 @@ case beenden: {
 
 		switch (ourUserIntent) {
 
-//selectWord(Level); 
+
 
 		
 		case leicht: {
@@ -677,15 +633,9 @@ break;
 		String pattern6 = "ja";
 		String pattern7 = "nein";
 		String pattern8 = "(\\bbeenden\\b) (bitte)?";
-<<<<<<< Upstream, based on origin/master
 		String pattern9 = "(zehn|10)";//"(Ich nehme )?(ich möchte )? zehn(Wörter)?(Worten)?( bitte)?";
 		String pattern10 = "(zwanzig|20)";//"(Ich nehme )?(ich möchte )? zwanzig(Wörter)?(Worten)?( bitte)?";
 		String pattern11 = "(dreizig|30)";//"(Ich nehme )?(ich möchte )? dreizig(Wörter)?(Worten)?( bitte)?";
-=======
-		String pattern9 = "zehn";//"(Ich nehme )?(ich möchte )? zehn(Wörter)?(Worten)?( bitte)?";
-		String pattern10 = "zwanzig";//"(Ich nehme )?(ich möchte )? zwanzig(Wörter)?(Worten)?( bitte)?";
-		String pattern11 = "dreizig";//"(Ich nehme )?(ich möchte )? dreizig(Wörter)?(Worten)?( bitte)?";
->>>>>>> 032aeac zum testen Niveau Leicht und zehn ( hier wiederholt  er die Frage.)
 		String pattern12 = "nomen";//"(ich nehme )?(Ich wähle )?(Ich denke )?(Ich vermute )?(antwort )?(Nomen)( bitte)?";
 		String pattern13 = "(Ich nehme )?(ein )?(wort)( bitte)?";// noch nicht in Gebrauch
 		String pattern14 = "verben"; //(ich nehme )?(Ich wähle )?(Ich denke )?(Ich vermute )?(antwort )?(Verben)( bitte)?";
@@ -734,7 +684,6 @@ break;
 
 			ourUserIntent = UserIntent.leicht;}
 
-<<<<<<< Upstream, based on origin/master
 		 else if (m4.find()) {
 
 			ourUserIntent = UserIntent.schwer;
@@ -756,26 +705,6 @@ break;
 			ourUserIntent = UserIntent.beenden;
 
 		}
-=======
-//		} else if (m4.find()) {
-//
-//			ourUserIntent = UserIntent.schwer;
-//
-//		} else if (m5.find()) {
-//
-//			ourUserIntent = UserIntent.sehrschwer;
-//
-//		} else if (m6.find()) {
-//
-//			ourUserIntent = UserIntent.Yes;
-//
-//		} else if (m7.find()) {
-//			ourUserIntent = UserIntent.No;
-//		} else if (m8.find()) {
-//			ourUserIntent = UserIntent.beenden;
-//
-//		}
->>>>>>> 032aeac zum testen Niveau Leicht und zehn ( hier wiederholt  er die Frage.)
 			else if (m9.find()) {
 			ourUserIntent = UserIntent.zehn;
 		} else if (m10.find()) {
@@ -808,6 +737,7 @@ break;
 		
 		
 		logger.info("set ourUserIntent to " + ourUserIntent);
+
 	}
 
 	@Override
@@ -875,6 +805,7 @@ break;
 
 	}
 	
+	// asking the User when finishing if he wants to play again
 	private SpeechletResponse askUserResponseWieder(String text) {
 
 		SsmlOutputSpeech speech = new SsmlOutputSpeech();
@@ -897,9 +828,7 @@ break;
 	}
 	
 	/*
-	 * Responding to the UserAnswer in case rivhtig oder Falsch.
-	 * 
-	 * 
+	 * Responding to the UserAnswer in case richtig oder Falsch.
 	 * 
 	 * */
 
@@ -983,7 +912,7 @@ break;
 	
 	
 
-	/// read till all questions are reached  String 
+	// asks the user a Question with the chosen random word
 	private SpeechletResponse askUserResponseQuestion(ArrayList<String> rnq, int cntr, int index) {
 
 		SsmlOutputSpeech speech = new SsmlOutputSpeech();
@@ -1027,7 +956,7 @@ break;
 	 * @param i
 	 * @return
 	 */
-// einpaar Anpassungen Fehlen.
+// different responses of the user.
 	private SpeechletResponse responseWithFlavour(String text, int i) {
 
 		SsmlOutputSpeech speech = new SsmlOutputSpeech();
