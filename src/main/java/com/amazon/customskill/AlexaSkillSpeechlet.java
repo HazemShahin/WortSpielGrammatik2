@@ -314,8 +314,6 @@ public class AlexaSkillSpeechlet
 
 		
 
-//case YesNoWiederholung: resp =  evaluateYesNoWiederholung(userRequest); break; create the Method  
-
 		default:
 			resp = tellUserAndFinish("Erkannter Text: " + userRequest);
 
@@ -325,7 +323,7 @@ public class AlexaSkillSpeechlet
 
 	}
 
-// Ja/Nein-Fragen kommen genau dann vor, wenn wir wissen wollen, ob der User weitermachen will.
+
 	// nach einer Falschen Antwort wird User gefragt ob er nochmal hören möchte. 
 
 	private SpeechletResponse evaluateYesNo(String userRequest) {
@@ -386,7 +384,7 @@ public class AlexaSkillSpeechlet
 	
 	}
 
-	// eine Andere Liste Erstellen zum Weiterspielen
+	// eine Andere Liste Erstellen zum Weiterspielen.Err
 	
 private SpeechletResponse evaluateYesNoWiederholung(String userRequest) {
 	
@@ -460,7 +458,7 @@ case nochmal: {
 /*
 	/**
 	
-	 * 
+	 * kommende methode 
 	 * überprüft User YesNo Antwort, wenn nein wird ein neues Wort Randomisier
 	 * ausgewählt und deren Frage gelesen.Wenn Ja liest die Frage vom Aktuellen Wort
 	 * nochmal
@@ -552,14 +550,7 @@ case nochmal: {
 			//recState = RecognitionState.Answer;
 			
 			break;
-		}/*
-		case beenden: {
-			res = tellUserAndFinish(buildString(utterances.get("counterMsg"), String.valueOf(counter), "") + " "
-					+ utterances.get("goodbyeMsg"));//  is it right ? 
-			
-			break;
 		}
-		*/
 		case zehn :{
 			wordnum = 10;
 			createRandList(9,word.getRnlist(),beendet);
@@ -634,9 +625,7 @@ break;
 
 
 
-// Achtung, Reihenfolge ist wichtig! 
-//WörterAnzahl Eingabe wird hier anerkannt 
-	// Fehler Anfällig 
+
 	void recognizeUserIntent(String userRequest) {
 	
 		userRequest = userRequest.toLowerCase();

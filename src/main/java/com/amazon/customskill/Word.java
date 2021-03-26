@@ -78,13 +78,7 @@ public class Word {
 				
 			
 			}
-			/*
-			
-			for(String s : rnlist)
-			{
-				System.out.println(s + "\n");
-			}*/
-			//String ID = rs.getString("NiveauID");
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -111,8 +105,7 @@ public class Word {
 			
 			
 		
-			
-			//String ID = rs.getString("NiveauID");
+	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

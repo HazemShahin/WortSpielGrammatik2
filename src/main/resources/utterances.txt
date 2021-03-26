@@ -1,9 +1,9 @@
-welcomeMsg = Hallo, willkommen bei der Anwendung Wortspiele. Deine Aufgabe wird es sein, dass du verschiedenen Wörtern ihren Wortgruppen zuordnen sollst. Zum Beispiel: das Wort "Fisch" gehört zu der Wortgruppe "Nomen". Mit welcher Schwierigkeitsstufe möchtest du spielen? Leicht, Schwer oder sehr sehr schwer?  
+welcomeMsg = Hallo, willkommen bei der Anwendung Wortspiele. Deine Aufgabe wird es sein, dass du verschiedenen Woertern ihren Wortgruppen zuordnen sollst. Zum Beispiel: das Wort "Fisch" gehoert zu der Wortgruppe "Nomen". Mit welcher Schwierigkeitsstufe mï¿½chtest du spielen? Leicht, Schwer oder sehr sehr schwer?  
 wrongMsg = Das ist leider falsch.
 correctMsg = Das ist richtig
-continueMsg = Möchtest du weiterspielen?
-congratsMsg = Herzlichen GlÃ¼ckwunsch! Sie haben eine Million Euro gewonnen.
-goodbyeMsg = Das hat Spaß gemacht! Bis zum nächsten Mal!
+continueMsg = Mï¿½chtest du weiterspielen?
+congratsMsg = Herzlichen GlÃ¼ckwunsch! 
+goodbyeMsg = Das hat Spaï¿½ gemacht! Bis zum nï¿½chsten Mal!
 sumMsg = Sie haben {replacement} Punkte bekommen.
 errorYesNoMsg = Das habe ich nicht verstanden. Sagen Sie bitte ja oder nein.
 errorAnswerMsg = Das habe ich nicht verstanden. Sagen Sie bitte Verben, Nomen, Adjektiven, beenden oder wiederholen.
