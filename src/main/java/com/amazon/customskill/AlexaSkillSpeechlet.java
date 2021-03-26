@@ -374,6 +374,10 @@ public class AlexaSkillSpeechlet
 			res = responseWithFlavour(utterances.get("goodbyeMsg"), 0);
 			break;
 		}
+		case nochmal: {
+			res = askUserResponseQuestion(templist,wordnum,counter);
+			break;
+		}
 		default: {
 			res = responseWithFlavour(utterances.get("errorYesNoMsg"), 0);
 		}
@@ -416,7 +420,12 @@ case beenden: {
 	res = responseWithFlavour(utterances.get("goodbyeMsg"), 0);
 	break;
 }
-	
+
+case nochmal: {
+	res = askUserResponseQuestion(templist,wordnum,counter);
+	break;
+}
+
 	
 	
 	}
@@ -489,6 +498,10 @@ case beenden: {
 		}
 		case beenden: {
 			res = responseWithFlavour(utterances.get("goodbyeMsg"), 0);
+			break;
+		}
+		case nochmal: {
+			res = askUserResponseQuestion(templist,wordnum,counter);
 			break;
 		}
 		default: {
@@ -571,6 +584,10 @@ break;
 		} 
 		case beenden: {
 			res = responseWithFlavour(utterances.get("goodbyeMsg"), 0);
+			break;
+		}
+		case nochmal: {
+			res = askUserResponseQuestion(templist,wordnum,counter);
 			break;
 		}
 		
@@ -678,7 +695,7 @@ break;
 
 		if (m2.find()) {
 
-			ourUserIntent = UserIntent.Yes; 
+			ourUserIntent = UserIntent.nochmal; 
 
 		} else if (m3.find()) {
 
@@ -842,7 +859,7 @@ break;
 			recState = RecognitionState.YesNoWord;
 
 		} else {
-			speech.setSsml("<speak>das war leider Falsch möchtest du nochmal hören ? oder weiter machen</speak>");
+			speech.setSsml("<speak>das war leider Falsch möchtest du nochmal hören ?</speak>");
 			//if (counter != 0) counter--;
 			recState = RecognitionState.YesNo;
 		}
